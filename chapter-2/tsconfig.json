@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "module": "ES2020", // TSCがどのモジュールシステムにコンパイルすべきか？
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2020",
+  },
+  "include": [ // TSCがTyoeScriptファイルを見つけるためにはどのディレクトリを見るべきか？
+    "src"
+  ],
+}
