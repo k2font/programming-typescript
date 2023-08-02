@@ -24,3 +24,39 @@ let airplaneSeatingAssignments: {
   "1D": "Tim Cook",
   "1E": "Craig Federighi"
 }
+
+// 型エイリアス
+type Age = number
+type Person = {
+  name: string,
+  age: Age // number型に名前をつけることができる
+}
+
+// union型とintersection型
+type Cat = { name: string, purrs: boolean }
+type Dog = { name: string, barks: boolean, wags: boolean }
+type catOrDogorBoth = Cat | Dog // これがunion型
+type CatAndDog = Cat & Dog // これがintersection型
+
+let animal: catOrDogorBoth = {
+  name: 'Tama',
+  purrs: true,
+  wags: true // Dog型のプロパティも持つことができる
+}
+
+let animal2: CatAndDog = {
+  name: 'Tama',
+  purrs: true,
+  barks: true, // Dog型のプロパティを持たなければいけない
+  wags: true // Dog型のプロパティを持たなければいけない
+}
+
+// union型の使いどころ
+type Return = string | null
+const trueOrNull = (isTrue: boolean): Return => {
+  if (isTrue) {
+    return 'true'
+  }
+  return null
+}
+
