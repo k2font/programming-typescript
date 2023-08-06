@@ -59,3 +59,42 @@ type Filter3<T> = {
 //   }
 //   return result
 // }
+
+// 以下のように型Tを事前に指定すればエラーは解消する
+const filter3: Filter3<number> = (array, T) => {
+  return [1, 2, 3]
+}
+
+// もう一つの例
+// function map(array: unknown[], f: (item: unknown) => unknown): unknown[] {
+//   let result = [];
+//   for (let i = 0; i < array.length; i++) {
+//     result[i] = f(array[i])
+//   }
+//   return result
+// }
+
+// これをジェネリック型で書き直すと以下の通り
+type MapType = {
+  <T, U>(array: T[], f: (item: T) => U): U[] // 変換後の型はTとは異なる可能性があるため、Uとしている
+}
+const map: MapType= (array, f) => {
+  let result = [];
+  for (let i = 0; i < array.length; i++) {
+    result[i] = f(array[i])
+  }
+  return result
+}
+
+map<number, boolean>([1, 2, 3], _ => _ === _ % 2);
+
+// ジェネリック型エイリアス
+// 型エイリアスでジェネリック型を指定するためには、型名の右にのみ指定できる
+// 呼び出しシグネチャとの違い
+type MyEvent<T> = {
+  target: T
+  type: string
+}
+// ジェネリック型エイリアスを利用するときは、型パラメータを明示的に指定する
+// 型推論されないため
+type ButtonEvent = MyEvent<HTMLButtonElement>
