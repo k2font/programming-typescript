@@ -1,5 +1,4 @@
 // ポリモーフィズムをTypeScriptで表現する
-
 type Filter = {
   (array: number[], f: (item: number) => boolean): number[]
   (array: string[], f: (item: string) => boolean): string[] // オーバーロード
@@ -98,3 +97,33 @@ type MyEvent<T> = {
 // ジェネリック型エイリアスを利用するときは、型パラメータを明示的に指定する
 // 型推論されないため
 type ButtonEvent = MyEvent<HTMLButtonElement>
+
+// 制限付きポリモーフィズム
+// 型Uは少なくとも型Tでなければならない、を表現する
+
+// 例えば二分木をTypeScriptで書く場合
+type TreeNode = {
+  value: string
+}
+type LeafNode = TreeNode & {
+  isLeaf: true // 葉なので常にtrue
+}
+type InnerNode = TreeNode & {
+  children: [TreeNode] | [TreeNode, TreeNode] // 1つもしくは2つのノードを子に持つ
+}
+
+// 3つのノードを作成
+let a: TreeNode = {value: "a"}
+let b: LeafNode = {value: "b", isLeaf: true}
+let c: InnerNode = {value: "c", children: [b]}
+
+const mapNode = <T extends TreeNode>(node: T, f: (value: string) => string): T => {
+  return {
+    ...node,
+    value: f(node.value)
+  }
+}
+
+let a1 = mapNode(a, _ => _.toUpperCase())
+let b1 = mapNode(b, _ => _.toUpperCase())
+let c1 = mapNode(c, _ => _.toUpperCase())
